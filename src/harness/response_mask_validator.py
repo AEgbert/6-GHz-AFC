@@ -24,6 +24,7 @@ generators in any/all statements to avoid short-circuit evaluation"""
 from math import isnan
 import expected_inquiry_response as afc_exp
 import available_spectrum_inquiry_response as afc_resp
+from interface_common import ResponseCode
 from response_validator import InquiryResponseValidator
 import sdi_validator_common as sdi_validate
 
@@ -191,13 +192,12 @@ class ResponseMaskValidator(sdi_validate.SDIValidatorBase):
                       f'{exp.expectedResponseCodes}')
       else:
         # expectedResponseCodes are valid
-        is_valid &= all([afc_exp.afc_resp.ResponseCode.get_raw_value(code) is not None
+        is_valid &= all([ResponseCode.get_raw_value(code) is not None
                         for code in exp.expectedResponseCodes])
 
         # If SUCCESS is expected response code:
-        if any(afc_exp.afc_resp.ResponseCode.get_raw_value(code) ==
-              afc_exp.afc_resp.ResponseCode.SUCCESS.value for code in exp.expectedResponseCodes):
-
+        if any(ResponseCode.get_raw_value(code) == ResponseCode.SUCCESS.value
+               for code in exp.expectedResponseCodes):
           # At least one of expectedChannelInfo and expectedFrequencyInfo is given
           if exp.expectedChannelInfo is None and exp.expectedFrequencyInfo is None:
             is_valid = False

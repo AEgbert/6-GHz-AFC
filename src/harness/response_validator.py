@@ -22,6 +22,7 @@ import math
 from datetime import datetime
 
 import available_spectrum_inquiry_response as afc_resp
+from interface_common import ResponseCode
 import sdi_validator_common as sdi_validate
 
 class InquiryResponseValidator(sdi_validate.SDIValidatorBase):
@@ -80,14 +81,14 @@ class InquiryResponseValidator(sdi_validate.SDIValidatorBase):
       # supplementalInfo is valid
       is_valid &= self.validate_supplemental_info(resp.supplementalInfo)
       try:
-        match afc_resp.ResponseCode.get_raw_value(resp.responseCode):
-          case afc_resp.ResponseCode.MISSING_PARAM.value:
+        match ResponseCode.get_raw_value(resp.responseCode):
+          case ResponseCode.MISSING_PARAM.value:
             disallowed_params = [x for x in vars(resp.supplementalInfo).keys()
                                  if x != 'missingParams']
-          case afc_resp.ResponseCode.INVALID_VALUE.value:
+          case ResponseCode.INVALID_VALUE.value:
             disallowed_params = [x for x in vars(resp.supplementalInfo).keys()
                                  if x != 'invalidParams']
-          case afc_resp.ResponseCode.UNEXPECTED_PARAM.value:
+          case ResponseCode.UNEXPECTED_PARAM.value:
             disallowed_params = [x for x in vars(resp.supplementalInfo).keys()
                                  if x != 'unexpectedParams']
           case _:
@@ -201,8 +202,7 @@ class InquiryResponseValidator(sdi_validate.SDIValidatorBase):
     is_valid = self.validate_response(resp.response)
 
     try:
-      if (afc_resp.ResponseCode.get_raw_value(resp.response.responseCode) !=
-          afc_resp.ResponseCode.SUCCESS.value):
+      if ResponseCode.get_raw_value(resp.response.responseCode) != ResponseCode.SUCCESS.value:
         disallowed_fields = ["availableFrequencyInfo",
                              "availableChannelInfo",
                              "availabilityExpireTime"]
