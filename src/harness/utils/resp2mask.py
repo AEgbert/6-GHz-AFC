@@ -238,7 +238,11 @@ def main():
       if not args.quiet:
         print(f'{src_file}: Converting...')
       with open(src_file, encoding='utf-8') as fin:
-        resp_raw = fin.read()
+        try:
+          resp_raw = fin.read()
+        except UnicodeDecodeError as ex:
+          print(f'{src_file}: Could not parse as utf-8: {ex}. Skipping...')
+          continue
 
       ## Parse JSON
       try:
