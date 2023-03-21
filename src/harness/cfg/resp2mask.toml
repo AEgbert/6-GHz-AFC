@@ -1,0 +1,65 @@
+# This file contains the configuration options for converting AFC responses to test harness
+# response masks.
+#
+# All options in the file are optional and can be omitted. The assumed default value is documented
+# with each option, along with a description of the functionality of each option.
+#
+# This file contains pre-configured non-default values for eirp_margins, eirp_limits, psd_margins,
+# and psd_limits corresponding to the values that should be used for United States AFC testing
+# according to FCC regulations (limits) and Wi-Fi Alliance AFC System Under Test (SUT) Test
+# plan (margins).
+
+# Option: exclude_extensions
+#   If true, any VendorExtension objects in the provided AFC response will not be copied
+#            to the resulting response mask
+#   If false, any VendorExtension objects in the provided AFC response will be transferred
+#            to the resulting response mask, without modification
+#   Default value: true
+#exclude_extensions = true
+
+# Option: expect_less_specific_error
+#   If true, the expectedResponseCodes list will be expanded to include less specific errors.
+#            Specifically, if the provided AFC response indicates a responseCode that is not
+#            SUCCESS or GENERAL_FAILURE (i.e., some optional response code), then
+#            GENERAL_FAILURE will be added to the expectedResponseCodes list.
+#   If false, the response mask's expectedResponseCodes list will only contain a single
+#             response code, which is the code indicated in the provided AFC response
+#   Default value: true
+#expect_less_specific_error = true
+
+# Option: permit_any_code
+#   If true, the generated response mask will have an empty disallowedResponseCodes list. In this
+#            case, the mask will not trigger an UNEXPECTED test result based solely on the received
+#            response code. However, a warning may still be logged if the received response code is
+#            not in the response mask's expectedResponseCodes list.
+#   If false, the generated response mask will use the default behavior (disallow any standard 
+#             response codes not provided in expectedResponseCodes). In the case of the resp2mask
+#             utility script, the resulting response mask file will not contain a
+#             disallowedResponseCodes field.
+#   Default value: false
+#permit_any_code = false
+
+# Options: eirp_margins, psd_margins
+#   These options change how the upper and lower bounds for expected power are computed using
+#   the nominal value provided by an AFC response. The resulting ExpectedPowerRange will have
+#   the following values:
+#       nominalValue: AFC response for maxPsd or maxEirp
+#       upperBound: nominalValue + margin['upper']
+#       lowerBound: nominalValue - margin['lower']
+#   This process is also subject to any specified power limits (see next option for details).
+#   Default value: {lower = inf, upper = 0}
+eirp_margins = {lower = inf, upper = 2.0}
+psd_margins  = {lower = inf, upper = 2.0}
+
+# Options: eirp_limits, psd_limits
+#   These options restrict the values defining an expected power range to be within the
+#   specified limits. If the AFC response itself is outside of these limits, it will first be
+#   clipped to these limits to set the nominal value, and then the upper and lower bounds will
+#   be computed using the specified margins applied to the revised nominal value. These limits
+#   modify the bound calculation described in the previous option to be:
+#       nominalValue: min(limits['upper'], max(AFC response, limits['lower']))
+#       upperBound: min(nominalValue + margin['upper'], limits['upper'])
+#       lowerBound: max(nominalValue - margin['lower'], limits['lower'])
+#   Default value: {lower = -inf, upper = inf}
+eirp_limits = {lower = -inf, upper = 36.0}
+psd_limits  = {lower = -inf, upper = 23.0}
