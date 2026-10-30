@@ -1,0 +1,1 @@
+This directory is a placeholder for a future release of the source code used to modify the NLCD data in this repository.

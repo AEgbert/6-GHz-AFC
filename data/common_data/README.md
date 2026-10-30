@@ -3,7 +3,7 @@
 This repository contains the supplemental data repositories for 6 GHz AFC operation defined in [WINNF-TS-5008](https://6ghz.wirelessinnovation.org/baseline-standards).
 
 ## Notifications
-To receive notifications of when a data repository in this directory is updated, consider using a [file watcher service](https://app.github-file-watcher.com/) to monitor [this GitHub repository](https://github.com/Wireless-Innovation-Forum/6-GHz-AFC) GitHub repository and the `data/common_data/*` subdirectory. Additionally, modifications to these data repositories will be made via pull requests submitted to this GitHub repository.
+To receive notifications of when a data repository in this directory is updated, consider using a [file watcher service](https://app.github-file-watcher.com/) to monitor [this GitHub repository](https://github.com/Wireless-Innovation-Forum/6-GHz-AFC) and the `data/common_data/*` subdirectory. Additionally, modifications to these data repositories will be made via pull requests submitted to this GitHub repository.
 
 ## Published Data Repositories
 A description of each data repository is provided in [WINNF-TS-5008](https://6ghz.wirelessinnovation.org/baseline-standards). Links to the version information for each data repository are provided below:
